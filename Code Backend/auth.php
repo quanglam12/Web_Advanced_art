@@ -1,11 +1,14 @@
 <?php
 require 'db_connect.php';
-include 'auto_login.php';
+require 'auto_login.php';
 
 $user = autoLogin($conn);
+
 if ($user) {
-    header('loadimg.php');
+    header('Location: Home.php');
+    exit;
 }
+
 
 if (isset($_POST['action']) && $_POST['action'] == 'register') {
     $userInput = $_POST['username'];
@@ -88,7 +91,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'login') {
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['login_time'] = time();
             }
-            header('Location: loadimg.php');
+            header('Location: Home.php');
         } else {
             echo "Mật khẩu không chính xác!";
         }
@@ -102,7 +105,7 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -110,7 +113,7 @@ $conn->close();
 </head>
 
 <body>
-
+<!--
     <h2>Đăng Ký</h2>
     <form action="auth.php" method="POST">
         <input type="hidden" name="action" value="register">
@@ -126,7 +129,7 @@ $conn->close();
         <button type="submit">Đăng Ký</button>
     </form>
 
-
+-->
     <h2>Đăng Nhập</h2>
     <form action="auth.php" method="POST">
         <input type="hidden" name="action" value="login">

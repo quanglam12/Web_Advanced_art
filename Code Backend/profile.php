@@ -93,6 +93,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Thông tin người dùng</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -129,6 +130,9 @@ $conn->close();
         </select><br>
 
         <input type="submit" value="Cập nhật thông tin">
+    </form>
+    <form action="logout.php" method="POST">
+        <button type="submit">Đăng xuất</button>
     </form>
     <script>
         document.getElementById('avatar').addEventListener('change', function (event) {

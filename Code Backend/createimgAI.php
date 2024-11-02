@@ -72,6 +72,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Image Generation</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <script src="https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/4.8.1/filerobot-image-editor.min.js"></script>
 </head>
 <body>
