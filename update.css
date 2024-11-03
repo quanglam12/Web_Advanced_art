@@ -1,0 +1,226 @@
+/* Reset styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* General body styling with a darker, artistic background */
+body {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    font-size: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Toolbar styling */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 12px 24px;
+    background-color: #333;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    padding: 16px 32px;
+}
+
+.logo {
+    height: 50px;
+}
+
+.btn {
+    padding: 10px 16px;
+    background-color: #565656;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    
+}
+
+.btn:hover {
+    background-color: #737373;
+    color: #ffffff;
+}
+
+/* Header styling with artistic font and color */
+.header {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    margin-bottom: 40px;
+
+}
+
+.header h1 {
+    font-size: 3em;
+    color: #f9a825;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Upload button with vivid color */
+.upload-btn {
+    background-color: #6a1b9a;
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    transition: background-color 0.4s ease, transform 0.2s ease;
+    padding: 14px 28px; /* Increase padding for better spacing around text */
+    margin-top: 16px;    /* Space between header and button */
+}
+
+.upload-btn:hover {
+    background-color: #8e24aa;
+    transform: translateY(-2px);
+}
+
+/* Image collection styling */
+.image-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Image item styling with a card effect */
+.image-item {
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    padding: 24px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+.image-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Image styling */
+.thumbnail {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Image details with artistic color contrast */
+.image-name {
+    font-size: 1.4em;
+    color: #f9a825;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.image-date, .image-category, .image-tags, .image-description {
+    font-size: 0.9em;
+    color: #bdbdbd;
+    margin-bottom: 8px;
+}
+
+/* Edit and Delete Buttons with vibrant contrast */
+.edit-btn, .delete-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 6px;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-btn {
+    background-color: #1976d2;
+    color: #ffffff;
+}
+
+.delete-btn {
+    background-color: #d32f2f;
+    color: #ffffff;
+}
+
+.edit-btn:hover {
+    background-color: #1e88e5;
+    transform: translateY(-2px);
+}
+
+.delete-btn:hover {
+    background-color: #c62828;
+    transform: translateY(-2px);
+}
+
+/* Modal styling for edit functionality */
+.modal-content {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 12px;
+    color: #e0e0e0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.modal h2 {
+    font-size: 1.6em;
+    color: #f9a825;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #424242;
+    border-radius: 8px;
+    background-color: #424242;
+    color: #e0e0e0;
+}
+
+.save-btn {
+    background-color: #43a047;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.save-btn:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background-color: #616161;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-left: 8px;
+}
+
+.cancel-btn:hover {
+    background-color: #757575;
+}
