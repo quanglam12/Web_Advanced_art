@@ -1,0 +1,87 @@
+<html lang="vi"><head>
+    <meta charset="UTF-8">
+    <title>Thông tin người dùng</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
+</head>
+
+<body>
+    <div class="toolbar">
+        <img src="z5769584825398_2ee4d68bafb2bb11093cc3b683cab452.jpg" alt="Logo" class="logo">
+        <button class="btn">Thanh công cụ</button>
+    </div>
+    <h2>Thông tin người dùng</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <label for="avatar">Ảnh đại diện:</label><br>
+        <img src="https://thanhnien.mediacdn.vn/Uploaded/nhutnq/2022_10_02/220928180903-03-dall-e-ai-2189.jpg" alt="Avatar" style="width:100px;height:100px;"><br>
+        <input type="file" name="avatar" id="avatar" accept="image/*"><br>
+        <img id="preview" src="#" alt="Xem trước ảnh" style="display:none; width:100px; height:100px; margin-top:10px;"><br>
+        <p id="error-message" class="error"></p>
+
+        <label for="fullname">Họ và tên:</label><br>
+        <input type="text" name="fullname" id="fullname" value="Mai Văn Quang Lâm" required=""><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" name="email" id="email" value="quanglammaivan@gmail.com" required=""><br>
+
+        <label for="phone">Số điện thoại:</label><br>
+        <input type="text" name="phone" id="phone" value="0395804101" required=""><br>
+
+        <label for="dob">Ngày sinh:</label><br>
+        <input type="date" name="dob" id="dob" value="2004-12-12" required=""><br>
+
+        <label for="address">Địa chỉ:</label><br>
+        <input type="text" name="address" id="address" value="BMT"><br>
+
+        <label for="gender">Giới tính:</label><br>
+        <select name="gender" id="gender">
+            <option value="Male" selected="">Nam</option>
+            <option value="Female">Nữ</option>
+            <option value="Other">Khác</option>
+        </select><br>
+
+        <input type="submit" value="Cập nhật thông tin">
+    </form>
+    <form action="logout.php" method="POST">
+        <button type="submit">Đăng xuất</button>
+    </form>
+    <script>
+        document.getElementById('avatar').addEventListener('change', function (event) {
+            const file = event.target.files[0]
+            const errorMessage = document.getElementById('error-message');
+
+            errorMessage.textContent = ''
+
+            if (file) {
+                const fileType = file.type;
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                if (!allowedTypes.includes(fileType)) {
+                    const img = document.getElementById('preview')
+                    img.style.display = 'none'
+                    errorMessage.textContent = 'Chỉ chấp nhận các định dạng JPG, PNG, JPEG.'
+                    event.target.value = ''
+                    return;
+                }
+
+                if (file.size > 5000000) {
+                    const img = document.getElementById('preview')
+                    img.style.display = 'none'
+                    errorMessage.textContent = 'File của bạn quá lớn. Giới hạn là 5MB.'
+                    event.target.value = ''
+                    return;
+                }
+
+                const reader = new FileReader()
+                reader.onload = function (e) {
+                    const img = document.getElementById('preview')
+                    img.src = e.target.result
+                    img.style.display = 'block'
+                    preview.appendChild(img)
+                }
+                reader.readAsDataURL(file)
+            }
+        });
+    </script>
+
+
+</body></html>
