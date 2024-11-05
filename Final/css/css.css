@@ -1,0 +1,261 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #dcdcdc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 40px;
+}
+
+.search-bar {
+    display: flex;
+    flex: 1;
+    margin: 0 20px;
+}
+.search-bar form {
+    display: flex;
+}
+
+.search-bar form input {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-bar form button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #e0e0e0;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.btn {
+    padding: 8px 12px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.explore-section {
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.explore-items {
+    display: flex;
+    gap: 10px;
+    margin-right: 40px;
+}
+
+.explore-item {
+    padding: 8px 16px;
+    background-color: #efefef;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.tag {
+    background-color: #efefef;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 80px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tag:hover {
+    background-color: #ddd;
+}
+
+.selected-tag {
+    background-color: #d4d0be;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+.image-gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.image-gallery img:hover {
+    transform: scale(1.05);
+}
+
+.imgname {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    text-align: center;
+    color: #333;
+}
+
+
+.imgartist {
+    font-size: 14px;
+    margin: 0;
+    text-align: center;
+    color: #666;
+}
+
+.imgartist a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.imgartist a:hover {
+    color: #0056b3;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.modal-details {
+    color: white;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+.download-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.user-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.user-menu img {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    transition: border-color 0.3s;
+}
+
+.user-menu img:hover {
+    border-color: #007BFF;
+}
+
+.user-menu-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 10;
+    min-width: 200px;
+}
+
+.user-menu:hover .user-menu-content {
+    display: block;
+}
+
+.menu-item {
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+    background-color: #f1f1f1;
+}
+
+
+.auth {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.auth a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    margin-right: 10px;
+}
+
+.auth a:hover {
+    background-color: #007BFF;
+    color: white;
+}

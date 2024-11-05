@@ -1,0 +1,36 @@
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button-container button:hover {
+    background-color: #45a049;
+}
+
+.upload-messages {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.upload-messages p {
+    margin: 5px 0;
+    color: #333;
+    font-size: 16px;
+}
