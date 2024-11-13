@@ -55,28 +55,11 @@
             <a href='createimgAI.php'>
                 <button class="explore-item">Tạo ảnh bằng AI</button>
             </a>
+            <a href='editImg.php'>
+                <button class="explore-item">Chỉnh sửa ảnh</button>
+            </a>
         </div>
 
-        <?php if ($user): ?>
-            <div class="user-menu">
-                <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Avatar" width="50" height="50">
-                <div class="user-menu-content">
-                    <a href="collection.php">
-                        <div class="menu-item">Bộ sưu tập</div>
-                    </a>
-                    <a href="profile.php">
-                        <div class="menu-item">Cài đặt</div>
-                    </a>
-                    <a href="logout.php">
-                        <div class="menu-item">Đăng xuất</div>
-                    </a>
-                </div>
-            </div>
-        <?php else: ?>
-            <div class="auth">
-                <a href="auth.php">Đăng nhập</a>
-            </div>
-        <?php endif; ?>
     </div>
     <div class="container">
         <h2>Bạn cần đăng nhập để thực hiện chức năng này</h2>

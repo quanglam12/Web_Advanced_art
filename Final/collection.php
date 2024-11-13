@@ -8,7 +8,7 @@ if ($user) {
     exit;
 }
 
-$sql = "SELECT * FROM images JOIN categories ON images.category_id = categories.cat_id WHERE artist_id = ?";
+$sql = "SELECT * FROM images JOIN categories ON images.category_id = categories.cat_id WHERE artist_id = ? ORDER BY uploaded_at DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user['user_id']);
 $stmt->execute();
@@ -59,6 +59,9 @@ if ($categoryResult->num_rows > 0) {
             </a>
             <a href='createimgAI.php'>
                 <button class="explore-item">Tạo ảnh bằng AI</button>
+            </a>
+            <a href='editImg.php'>
+                <button class="explore-item">Chỉnh sửa ảnh</button>
             </a>
         </div>
 
@@ -145,6 +148,7 @@ if ($categoryResult->num_rows > 0) {
 
                         <button type="submit" class="save-btn">Lưu Thay Đổi</button>
                         <button type="button" class="cancel-btn">Hủy Bỏ</button>
+                        <button type="button" class="editfilerobot" onclick="rederect2EditImg()">Filerobot Editor</button>
                     </form>
                 </div>
             </div>
@@ -152,6 +156,10 @@ if ($categoryResult->num_rows > 0) {
     </div>
 
     <script>
+        function rederect2EditImg(){
+            const idImg =document.getElementById("image_id").value;
+            window.open("./editImg.php?id=" + idImg);
+        }
         const deleteButtons = document.querySelectorAll('.delete-btn');
 
         deleteButtons.forEach(button => {

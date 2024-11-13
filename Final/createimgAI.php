@@ -43,6 +43,9 @@ if ($user == null) {
       <a href='createimgAI.php'>
         <button class="explore-item">Tạo ảnh bằng AI</button>
       </a>
+      <a href='editImg.php'>
+        <button class="explore-item">Chỉnh sửa ảnh</button>
+      </a>
     </div>
 
     <?php if ($user): ?>
@@ -68,7 +71,7 @@ if ($user == null) {
   </div>
   <h1>Tạo Ảnh với DALL-E</h1>
   <div class="AI-generation">
-    <form method="post">
+    <form class="imgpromt" method="post">
       <label for="image_prompt">Nhập nội dung để tạo ảnh:</label>
       <input type="text" id="image_prompt" name="image_prompt" required>
       <button type="submit" name="generate_image">Tạo</button>
@@ -76,6 +79,9 @@ if ($user == null) {
     <div class="imageGeneration">
       <?php
       if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_image'])) {
+        $sql = "SELECT cat_id, category_name FROM categories";
+        $result = $conn->query($sql);
+        $default_category_id = 30;
         $prompt = $_POST['image_prompt'];
         $url = "https://api.openai.com/v1/images/generations";
 
@@ -106,10 +112,31 @@ if ($user == null) {
           if (isset($decodedResponse['data'][0]['url'])) {
             $imageUrl = $decodedResponse['data'][0]['url'];
 
-            echo "<img src='$imageUrl' alt='Generated Image' id='generatedImage'><br>";
+            echo "<img src='$imageUrl' alt='Generated Image' id='generatedImage' data='not'><br>";
+            echo "<script>
+                  document.getElementById('generatedImage').onload = function() {
+                  document.getElementById('generatedImage').this.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                  };
+                  </script>";
             echo "
-              <form method='post'>
+              <form method='post' class='image-details-form'>
                   <input type='hidden' name='image_url' value='$imageUrl'>
+                  <input type='text' name='name' placeholder='Enter name' value='Ảnh AI' required>
+                  <textarea name='descriptions' placeholder='Enter description'>$prompt</textarea>
+                  <select name='categories' required>";
+            if ($result && mysqli_num_rows($result) > 0) {
+              while ($row = mysqli_fetch_assoc($result)) {
+                $cat_id = $row['cat_id'];
+                $category_name = $row['category_name'];
+                $selected = ($cat_id == $default_category_id) ? 'selected' : '';
+                echo "<option value='$cat_id' $selected>$category_name</option>";
+              }
+            } else {
+              echo "<option value=''>Không có danh mục nào</option>";
+            }
+            echo "
+                  </select>
+                  <input type='text' name='tags' placeholder='Enter tags (comma-separated)'>
                   <button type='submit' name='save_image'>Lưu</button>
               </form>";
           } else {
@@ -122,6 +149,10 @@ if ($user == null) {
 
       if (isset($_POST['save_image'])) {
         $imageUrl = $_POST['image_url'];
+        $name = $_POST['name'];
+        $descriptions = $_POST['descriptions'];
+        $categories = (int) $_POST['categories'];
+        $tags = $_POST['tags'];
         $imageData = file_get_contents($imageUrl);
         $imageName = $user['user_id'] . '-' . uniqid('', true) . '.png';
         $imagePath = 'imgAI/' . $imageName;
@@ -132,20 +163,22 @@ if ($user == null) {
           $minetype = 'png';
           $updateImgPath = "./" . $imagePath;
           $artist_url = "/" . $user['user_id'] . '-' . $user['username'];
-          $category_id = 30;
-          $stmt = $conn->prepare("INSERT INTO images (name, alt_text, title, path, size, mime_type, artist, artist_url, artist_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+          $stmt = $conn->prepare("INSERT INTO images (name, alt_text, title, description, tags, path, size, mime_type, artist, artist_url, artist_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
           if (!$stmt) {
             die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
           }
-          $stmt->bind_param("ssssisssii", $imageName, $imageName, $imageName, $updateImgPath, $sizeimg, $minetype, $user['fullname'], $artist_url, $user['user_id'], $category_id);
+          $stmt->bind_param("ssssssisssii", $name, $name, $name, $descriptions, $tags, $updateImgPath, $sizeimg, $minetype, $user['fullname'], $artist_url, $user['user_id'], $categories);
 
           if ($stmt->execute()) {
-            echo "Image saved successfully: <img src='$imagePath' alt='Saved Image' id='generatedImage'>";
+            $inserted_id = $conn->insert_id;
+            echo "<img src='$updateImgPath' alt='Saved Image' id='generatedImage' data='yes' data-id='$inserted_id'>";
+            echo "<p>Lưu ảnh vào bộ sưu tập thành công!</p>";
             echo "
-              <form method='post'>
+              <form method='post' class='button-container'>
                   <input type='hidden' name='image_url' value='$imageUrl'>
-                  <button type='submit' name='save_image'>Lưu</button>
-                  <button type='button' id='edit_image'>Chỉnh sửa</button>
+                  <button type='submit' name='save_image' class='btn-storage' onclick='reditectStorage()'>Bộ sưu tập</button> 
+                  <button type='button' class='btn-download' onclick='downloadImage()'>Tải xuống</button> 
+                  <button type='button' class='btn-edit' onclick='redirectEditFilerobot()'>Chỉnh sửa</button>                 
               </form>";
           } else {
             echo "Failed to save image to the database.";
@@ -157,121 +190,25 @@ if ($user == null) {
       $conn->close();
       ?>
     </div>
-    <div id="editor_container" style="width: 100%; height: 700px;"></div>
   </div>
-
   <script>
-    document.getElementById('edit_image').addEventListener('click', function () {
-      const imageUrl = document.getElementById('generatedImage').src;
-      const { TABS, TOOLS } = FilerobotImageEditor;
-      const config = {
-        source: imageUrl,
-        onSave: (editedImageObject, designState) => {
-          const imageUrl = editedImageObject.imageBase64;
-          const imageName = editedImageObject.fullName;
-          const imageFormat = editedImageObject.mimeType.split('/')[1];
-
-          const downloadLink = document.createElement('a');
-          downloadLink.href = imageUrl;
-          downloadLink.download = 'edited_image.jpg';
-          downloadLink.style.display = 'none';
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
-
-          const formData = new FormData();
-          formData.append('image', imageUrl);
-          formData.append('name', imageName);
-          formData.append('format', imageFormat);
-
-          fetch('createimgAI.php', { // Server
-            method: 'POST',
-            body: formData
-          })
-            .then(response => response.text())
-            .then(result => {
-              console.log('Server response:', result);
-            })
-            .catch(error => {
-              console.error('Error uploading image:', error);
-            });
-        },
-        annotationsCommon: {
-          fill: '#ff0000',
-        },
-        Text: { text: 'Filerobot...' },
-        Rotate: { angle: 90, componentType: 'slider' },
-        translations: {
-          profile: 'Profile',
-          coverPhoto: 'Cover photo',
-          facebook: 'Facebook',
-          socialMedia: 'Social Media',
-          fbProfileSize: '180x180px',
-          fbCoverPhotoSize: '820x312px',
-        },
-        Crop: {
-          presetsItems: [
-            {
-              titleKey: 'classicTv',
-              descriptionKey: '4:3',
-              ratio: 4 / 3,
-              // icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
-            },
-            {
-              titleKey: 'cinemascope',
-              descriptionKey: '21:9',
-              ratio: 21 / 9,
-              // icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
-            },
-          ],
-          presetsFolders: [
-            {
-              titleKey: 'socialMedia', // will be translated into Social Media as backend contains this translation key
-              // icon: Social, // optional, Social is a React Function component. Possible (React Function component, string or HTML Element)
-              groups: [
-                {
-                  titleKey: 'facebook',
-                  items: [
-                    {
-                      titleKey: 'profile',
-                      width: 180,
-                      height: 180,
-                      descriptionKey: 'fbProfileSize',
-                    },
-                    {
-                      titleKey: 'coverPhoto',
-                      width: 820,
-                      height: 312,
-                      descriptionKey: 'fbCoverPhotoSize',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        tabsIds: [TABS.ADJUST, TABS.FINETUNE, TABS.FILTERS, TABS.ANNOTATE, TABS.WATERMARK, TABS.RESIZE], // or ['Adjust', 'Annotate', 'Watermark']
-        defaultTabId: TABS.ANNOTATE, // or 'Annotate'
-        defaultToolId: TOOLS.TEXT, // or 'Text'
-      };
-
-      // Assuming we have a div with id="editor_container"
-      const filerobotImageEditor = new FilerobotImageEditor(
-        document.querySelector('#editor_container'),
-        config,
-      );
-
-      filerobotImageEditor.render({
-        onClose: (closingReason) => {
-          console.log('Closing reason', closingReason);
-          filerobotImageEditor.terminate();
-        },
-      });
-    })
-
-
+    function downloadImage() {
+      const imgSrc = document.getElementById('generatedImage').src;
+      const link = document.createElement('a');
+      link.href = imgSrc;
+      link.download = 'downloaded_image.jpg';
+      link.click();
+    }
+    function reditectStorage() {
+      window.location.href = 'collection.php'
+    }
+    function redirectEditFilerobot() {
+      var imgElement = document.getElementById('generatedImage');
+      var dataId = imgElement.getAttribute('data-id');
+      var redirect = 'editImg.php?id=' + dataId;
+      window.location.href = redirect;
+    }
   </script>
-
 </body>
 
 </html>

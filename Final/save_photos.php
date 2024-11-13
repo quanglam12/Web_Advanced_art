@@ -57,6 +57,9 @@ if ($user) {
                     <a href="logout.php">
                         <div class="menu-item">Đăng xuất</div>
                     </a>
+                    <a href='editImg.php'>
+                        <button class="explore-item">Chỉnh sửa ảnh</button>
+                    </a>
                 </div>
             </div>
         <?php else: ?>

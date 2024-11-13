@@ -36,6 +36,9 @@ $user = autoLogin($conn);
                 <a href='createimgAI.php'>
                     <button class="explore-item">Tạo ảnh bằng AI</button>
                 </a>
+                <a href='editImg.php'>
+                    <button class="explore-item">Chỉnh sửa ảnh</button>
+                </a>
             </div>
 
         <?php if ($user): ?>
@@ -73,7 +76,7 @@ $user = autoLogin($conn);
         <?php
         include 'db_connect.php';
 
-        $sql = "SELECT * FROM images";
+        $sql = "SELECT * FROM images ORDER BY uploaded_at DESC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -97,10 +100,11 @@ $user = autoLogin($conn);
             <h2 id="modal-name"></h2>
             <p><strong>Tác giả:</strong> <span id="modal-artist"></span></p>
             <p><strong>Kích thước:</strong> <span id="modal-size"></span></p>
-            <p><strong>Danh mục</strong> <span id="modal-category"></span></p>
+            <p><strong>Danh mục:</strong> <span id="modal-category"></span></p>
             <p><strong>Mô tả:</strong> <span id="modal-description"></span></p>
             <p><strong>Tags:</strong> <span id="modal-tags"></span></p>
-            <a id="download-link" href="#" download class="download-btn">Tải xuống</a>
+            <p><strong>Ngày tải lên:</strong> <span id="modal-date"></span></p>
+            <span><a id="download-link" href="#" download class="download-btn">Tải xuống</a></span>
         </div>
     </div>
 

@@ -37,6 +37,9 @@ $user = autoLogin($conn);
             <a href='createimgAI.php'>
                 <button class="explore-item">Tạo ảnh bằng AI</button>
             </a>
+            <a href='editImg.php'>
+                <button class="explore-item">Chỉnh sửa ảnh</button>
+            </a>
         </div>
 
         <?php if ($user): ?>
