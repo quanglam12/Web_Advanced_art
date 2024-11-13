@@ -20,7 +20,7 @@ Nhấn vào tab Import.
 Trong phần File to import, chọn file .sql từ máy tính của bạn.
 Nhấn Go để import dữ liệu vào cơ sở dữ liệu.
 3. Thay đổi API DALL-E trong file .htmlaccess
-Bước 1: Tìm file .htmlaccess (Hoặc tạo mới)
+Bước 1: Tìm file .htmlaccess (Hoặc tạo mới trong thư mục "htdocs")
 File .htmlaccess có thể nằm trong thư mục gốc của dự án hoặc trong thư mục con chứa các file cấu hình khác.
 Bước 2: Sửa API key DALL-E
 Mở file .htmlaccess bằng một trình soạn thảo văn bản.
